@@ -80,7 +80,23 @@ I am assuming that this command does not provide a way to escape from the VM by 
 
 Note: Your unikernel should implement the qrexec protocol so that Qubes can control it with `qvm-run`. See [qubes-mirage-skeleton][] for an example unikernel that does this. Alternatively, you can configure with `mirage configure -t qubes` to have this set up automatically.
 
-If you wish to use the `boot` commands (for just booting an existing VM and watching its console output), repeat the process above substituting `dom0_boot.exe` and `dev_boot.exe` for `dom0_replace.exe` and `dev_replace.exe`.
+If you wish to use the `boot` commands (for just booting an existing VM and watching its console output), repeat the process above substituting `dom0_boot.exe` and `dev_boot.exe` for `dom0_replace.exe` and `dev_replace.exe`.  In short, from dom0:
+
+```
+    # qvm-run -p dev 'cat /path/to/test-mirage/_build/default/dom0_boot.exe' > boot-mirage-dom0
+    # mv boot-mirage-dom0 /usr/local/bin/boot-mirage-dom0
+    # chmod a+x /usr/local/bin/boot-mirage-dom0
+    # echo /usr/local/bin/boot-mirage-dom0 > /etc/qubes-rpc/talex5.BootMirage
+```
+
+Create a policy allowing your `dev` VM to use the service, as `/etc/qubes-rpc/policy/talex5.BootMirage`:
+
+```
+    # cat > /etc/qubes-rpc/policy/talex5.BootMirage << EOF
+    dev dom0 allow
+    \$anyvm	\$anyvm	deny
+    EOF
+```
 
 
 LICENSE
