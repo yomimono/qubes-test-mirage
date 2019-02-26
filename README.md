@@ -25,17 +25,19 @@ Build the test-mirage binaries:
 
     $ make
 
-This will generate two binaries in the `_build` directory:
+This will generate four binaries in the `_build/default` directory:
 
-- `dom0.native` will run in dom0 and accepts kernel uploads.
-- `dev.native` will run in your dev VM and sends kernel images to dom0.
+- `dom0_replace.exe` will run in dom0 and accepts kernel uploads.
+- `dev_replace.exe` will run in your dev VM and sends kernel images to dom0.
+- `dom0_boot.exe` will run in dom0 and boots existing kernels.
+- `dev_boot.exe` will run in your dev VM; it asks dom0 to boot kernels and displays their console output.
 
-Copy `dom0.native` to dom0 as `/usr/local/bin/test-mirage-dom0` (and make it executable).
+Copy `dom0_replace.exe` to dom0 as `/usr/local/bin/test-mirage-dom0` (and make it executable).
 The easiest way to do this is to run these commands in dom0 (`dev` is the name of the build VM
 and you'll need to adjust the path):
 
-    # qvm-run -p dev 'cat /path/to/test-mirage/_build/dom0.native' > dom0.native
-    # mv dom0.native /usr/local/bin/test-mirage-dom0
+    # qvm-run -p dev 'cat /path/to/test-mirage/_build/default/dom0_replace.exe' > test-mirage-dom0
+    # mv test-mirage-dom0 /usr/local/bin/test-mirage-dom0
     # chmod a+x /usr/local/bin/test-mirage-dom0
 
 Create `/etc/qubes-rpc/talex5.TestMirage` containing just that path:
@@ -77,6 +79,8 @@ Once started, the test VM console is attached using `sudo xl console -c`, with s
 I am assuming that this command does not provide a way to escape from the VM by entering some special character sequence (the usual `Ctrl-]` does not work since this is not a tty, and would just end the process in any case).
 
 Note: Your unikernel should implement the qrexec protocol so that Qubes can control it with `qvm-run`. See [qubes-mirage-skeleton][] for an example unikernel that does this. Alternatively, you can configure with `mirage configure -t qubes` to have this set up automatically.
+
+If you wish to use the `boot` commands (for just booting an existing VM and watching its console output), repeat the process above substituting `dom0_boot.exe` and `dev_boot.exe` for `dom0_replace.exe` and `dev_replace.exe`.
 
 
 LICENSE

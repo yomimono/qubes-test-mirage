@@ -1,0 +1,39 @@
+(library
+ (name utils)
+ (modules utils)
+ (libraries lwt lwt.unix)
+)
+
+(library
+ (name dom0)
+ (modules dom0)
+ (libraries lwt lwt.unix str utils)
+)
+
+(executable
+ (name  dev_replace)
+ (public_name dev_replace)
+ (modules dev_replace)
+ (libraries lwt lwt.unix utils)
+)
+
+(executable
+ (name  dom0_replace)
+ (public_name dom0_replace)
+ (modules dom0_replace)
+ (libraries lwt lwt.unix utils dom0)
+)
+
+(executable
+ (name  dev_boot)
+ (public_name dev_boot)
+ (modules dev_boot)
+ (libraries lwt lwt.unix utils)
+)
+
+(executable
+ (name dom0_boot)
+ (public_name dom0_boot)
+ (modules dom0_boot)
+ (libraries lwt lwt.unix utils dom0)
+)
