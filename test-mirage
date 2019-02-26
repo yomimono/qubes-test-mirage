@@ -1,6 +1,5 @@
 #!/bin/bash -eu
-DEV_SIDE_BINARY=$(dirname $0)/_build/dev-replace-kernel.native
-# DEV_SIDE_BINARY=/path/to/_build/dev-replace-kernel.native
+DEV_SIDE_BINARY=$(dirname $0)/_build/default/dev_replace.exe
 if [ ! -f $DEV_SIDE_BINARY ]; then
   echo "$DEV_SIDE_BINARY not found (try running 'make')"
   exit 1

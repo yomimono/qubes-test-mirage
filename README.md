@@ -23,7 +23,7 @@ Only kernels with a `test-mirage-ok` file can be updated using this program.
 
 Build the test-mirage binaries:
 
-    $ make
+    $ dune build
 
 This will generate four binaries in the `_build/default` directory:
 
